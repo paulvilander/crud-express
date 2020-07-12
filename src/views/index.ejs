@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+            <h1 ><%= h1 %></h1>
+        <hr>
+        <form action="/add" method="post">
+            <legend>
+                Add a task
+            </legend>
+            <div class="form-group">
+                <input type="text" id="title" name="title" class="form-control">
+            </div>
+            <div class="form-group">
+                <textarea placeholder="Add a description" id="description" name="description" rows="2" cols="20" class="form-control"></textarea>
+            </div>
+            <button class="btn btn-info">Enviar</button>
+        </form>
+        <br/>
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Título</th>
+                    <th>Descripción</th>
+                    <th>Operación</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i = 0; i< tasks.length; i++){%>
+                    <tr>
+                        <td>
+                            <%= i+1 %>
+                        </td>
+                        <td>
+                            <strong>
+                                <%= tasks[i].title %>
+                            </strong>
+                        </td>
+                        <td>
+                            <%= tasks[i].description %>
+                        </td>
+                        <td> 
+                            <a 
+                                class="<%= tasks[i].status ? 'btn btn-success' : 'btn btn-dark' %>"
+                                href="/turn/<%= tasks[i]._id%>">
+                                Done
+                            </a>
+                            <a id="delete"
+                            class=" btn btn-danger"
+                            href="/delete/<%= tasks[i]._id%>">
+                            Delete
+                        </a>
+                        </td>
+                    </tr>
+                <% }%>
+            </tbody>
+        </table>
+    </div>
+    <script>
+    document.getElementById('title').focus();
+    document.getElementById('delete')
+    .addEventListener('click', (e) => {
+        let response = confirm('Are you sure?');
+        if(!response) e.preventDefault();
+    });
+    </script>
+</body>
+</html>
